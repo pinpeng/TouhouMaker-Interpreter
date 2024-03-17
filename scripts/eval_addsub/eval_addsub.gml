@@ -1,0 +1,26 @@
+///@function eval_addsub(value)
+///@arg value
+function eval_addsub(argument0) {
+	var result = argument0;
+	result = eval_muldiv(result);
+	if(result[0]) return [1];
+	while(exist(token_get_value(eval_get_current_token()),"+","-")){
+		var operation = eval_eat_token(TokenType.MATH);
+		var _tmp = eval_factor();
+		if(_tmp[0]) return [1];
+		var _tmp2 = eval_muldiv(_tmp[1]);
+		if(_tmp2[0]) return [1];
+		if(is_string(_tmp2[1])) return [1];
+		switch(operation){
+			case "+":
+				result[1] = result[1] + _tmp2[1];
+				break;
+			case "-":
+				result[1] = result[1] - _tmp2[1];
+				break;
+		}
+	}
+	return [0, result[1]];
+
+
+}

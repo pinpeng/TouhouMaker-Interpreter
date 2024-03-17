@@ -1,0 +1,92 @@
+{
+    "__name_list": [
+        "global",
+        "video",
+        "audio"
+    ],
+    "audio": {
+        "__name_list": [
+            "volume_main",
+            "volume_bgm",
+            "volume_se",
+            "volume_voice"
+        ],
+        "show": 1,
+        "volume_bgm": {
+            "def": 100,
+            "num": 0,
+            "show": 0,
+            "val": 100
+        },
+        "volume_main": {
+            "def": 100,
+            "num": 0,
+            "show": 1,
+            "val": 100
+        },
+        "volume_se": {
+            "def": 100,
+            "num": 0,
+            "show": 0,
+            "val": 100
+        },
+        "volume_voice": {
+            "def": 100,
+            "num": 0,
+            "show": 0,
+            "val": 100
+        }
+    },
+    "global": {
+        "__name_list": [
+            "language",
+            "debug"
+        ],
+        "debug": {
+            "def": 0,
+            "num": 1,
+            "show": 0,
+            "val": 0
+        },
+        "language": {
+            "def": 0,
+            "num": 3,
+            "show": 1,
+            "val": 0
+        },
+        "show": 1
+    },
+    "video": {
+        "__name_list": [
+            "full_screen_go",
+            "full_screen",
+            "bloom",
+            "effect"
+        ],
+        "bloom": {
+            "def": 1,
+            "num": 1,
+            "show": 1,
+            "val": 1
+        },
+        "effect": {
+            "def": 1,
+            "num": 1,
+            "show": 1,
+            "val": 1
+        },
+        "full_screen": {
+            "def": 1,
+            "num": 1,
+            "show": 1,
+            "val": 1
+        },
+        "full_screen_go": {
+            "def": 1,
+            "num": 1,
+            "show": 0,
+            "val": 1
+        },
+        "show": 1
+    }
+}

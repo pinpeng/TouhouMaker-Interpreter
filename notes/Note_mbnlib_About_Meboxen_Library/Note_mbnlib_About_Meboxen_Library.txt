@@ -1,0 +1,60 @@
+
+Meboxen Library 2
+简称 mbnlib2
+Created by E17bits
+
+verson 2.3
+
+请使用 GameMaker (Runtime v2023.11.1.160) 进行导入
+
+特别感谢:
+Gatete Mario Engine team
+Juju Adams
+房骞骞与文泉驿信任委员会
+Deepnight Games
+mintypython
+
+ver 1.2.0 2022/10/2
+...
+
+ver 2.0.0 preview 2023/6/8
+...
+
+ver 2.0 2023/7/23
+新版的工具包来啦
+这个是经过实战检验过的
+当然执行效率就不保证了
+反正我用的挺爽的
+
+ver 2.1 2023/9/7
+加入了LDTK和MSCB(0.2.0)的相关组件
+
+ver 2.2 2023/10
+加入了textEdit，然而啥东西都没有调试好
+
+ver 2.3 preview 2023/12/30
+加入了vinyl（据说是好用的音频处理脚本，但是实际上根本不知道是啥玩意）
+删掉了很可能在新版本失效的gm_view相关函数
+现在对之前的代码进行了彻底的整理
+
+ver 2.3 2024/1/6
+加入了mintypython的execute_string拓展，取代了之前的mscb_execute，可以快乐执行gml了！
+重写了MWindow System，加入了lineEdit
+取消了Ingame System的限制
+重写了mInput，现在键鼠输入和手柄输入被严格区分开
+对部分函数进行了重命名
+加入了mTrigger，现在能够像Qt一样发消息触发函数
+Vinyl作为可选组件，不作为Mbnlib2.3的一部分
+加入了简约的说明文档
+mMath加入了一些函数
+mDraw加入了一些函数
+现在按下F1即可开启控制台，可以干大部分事情了！不过目前还不能快速索引数组之类的
+管他呢够用就行
+LDTK Api还没搞好，之后有机会再搞吧……
+
+ver 2.4 2024/1/23
+修复了2.3中存在的大量问题，完善了许多东西
+现在隆重推出THMK Api作为可选拓展！！！
+
+
+

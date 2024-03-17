@@ -1,0 +1,36 @@
+{
+    "languageList": [
+        "简体中文",
+        "繁體中文",
+        "English"
+    ],
+    "languageNumber": 3,
+    "textList": [
+        [
+            "BOSS0",
+            "<undefined>",
+            "<undefined>"
+        ],
+        [
+            "第一句话\n123123\n123123\n",
+            "<undefined>",
+            "<undefined>"
+        ],
+        [
+            "第二句话\n456456\n456",
+            "<undefined>",
+            "<undefined>"
+        ],
+        [
+            "123",
+            "<undefined>",
+            "<undefined>"
+        ],
+        [
+            "456",
+            "<undefined>",
+            "<undefined>"
+        ]
+    ],
+    "textNumber": 5
+}

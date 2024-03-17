@@ -1,0 +1,300 @@
+
+怎么使用mbnlib2？
+
+1.导入本包（都看到这段文本了，应该也导入了吧）
+
+2.直接设置Texture Page，把 Mbnlib2/Fonts 中的文本全部塞到不同的Texture Page里
+并且一定！一定！一定！保证材质页的大小大于等于4096*4096，否则会出现材质装不下的问题
+
+3.设置初始房间大小为1280*720，把 Mbnlib2/System 拖到房间里去
+建议在初始房间里直接room_goto_next()，避免出现莫名其妙的问题
+
+4.检查Include Files里有没有
+msetting.json （设置配置文件）
+mword.json （多语言文本文件）
+SourceHanSans.otf （思源黑体，作为标准字体）
+
+如果要加装Vinyl，还要加入
+vinyl.dat
+vinyl_license.txt
+同时需要禁用文件沙盒
+
+如果要加装MSCB api，还要加入
+好吧现在还没做好所以不存在加装MSCB api，期待之后再完成
+
+5.点击播放，GMS会开始编译无穷无尽的shader，渲染无穷无尽的材质页，请耐心等待
+然后如果成功打开了，恭喜你已经成功导入了mbnlib2！
+
+
+
+mbnlib2tool
+
+mbnlib2把通用设置项目都集成到了msetting.json中进行定义
+而和多语言文本相关的东西，都使用mword.json中的文本
+所以如果没有带msetting.json和mword.json文件，会直接在初始化阶段报错
+msetting.json和mword.json都可以使用外部程序mbnlib2tool进行设置
+在外部更改完毕后，直接把两个文件覆盖到Include Files里就行
+
+
+
+mSetting
+
+mSetting可以进行通用的设置项控制
+正常情况下，设置界面可以直接使用MWindow System的MWindow_setting
+可以直接对各类设置项目进行通用的设置，完事了还能自动保存，继承了使用就行
+每个设置项（item）都属于一个组（group），通常每个组会在设置界面中放在单独的一页中
+
+使用setting_get(_group, _item)即可获取设置项的具体数值
+如：
+if(setting_get("global", "debug")) {
+	__mDebug_draw();
+}
+
+使用setting_set(_group, _item, _val)对项目的数值进行设置
+如：
+if(input_kb_pressed(INPUT.FUNC0)) {
+	setting_set("audio", "volume_bgm", 0)
+}
+
+
+
+mWord
+
+mWord专门处理多语言文本
+和设置项类似，每个文本代号（name）都属于一个组（group）
+
+使用word(_group, _name)可以获取当前语言的文本
+如果没有找到对应文本，会返回<undefined>
+Lan是一个宏，返回当前的语言代号
+
+
+
+Ingame System
+
+Ingame System是一个手动接管instance绘图的系统，众所周知GMS的照相机很坑爹
+想要用照相机捕获的画面进行后处理简直是噩梦
+如果你真的觉得这不是噩梦就试试玩弄application_surface
+Ingame System会让instance绘制到INGAME_SURFACE和VGUI_SURFACE里
+这两个surface的大小和各种属性都可以随意操作
+然后再搞后处理什么的就会方便许多
+
+想要启用Ingame System，需要创建一个Object继承 Mbnlib2/Ingame System/Cmd_INGAME_BASE
+建议命名为Cmd_rmXXX，如果喜欢可以勾选为持续存在
+此后Draw事件、Draw Begin事件、Draw End事件里，常规绘制的东西会被强制覆盖
+简单来说就是你在房间编辑器里摆的东西啥也看不见了
+本质上是，原本要出现在application_surface上的画面
+被Cmd_INGAME_BASE的Draw GUI Begin事件里覆盖了
+如果想要让instance绘制出东西，需要继承 Mbnlib2/Ingame System/Obj_INGAME_BASE
+然后重写_draw_ingame()和_draw_vgui()函数
+假装_draw_ingame()是原来的Draw事件、_draw_vgui()是原来的Draw GUI事件就行
+
+Ingame System会让instance绘制到INGAME_SURFACE和VGUI_SURFACE里
+INGAME_SURFACE是主要绘制的画面
+VGUI_SURFACE是虚拟GUI层
+比如你要搞个像素游戏，希望小怪头顶有个血条或者别的啥的
+不需要在Draw GUI事件里写什么坐标解析公式
+直接写在_draw_vgui()里，在合适的位置绘制就行
+
+
+
+自适应分辨率UI
+
+如果System还在正常工作，它就会强制UI的分辨率和窗口大小相同
+所以如果你要搞像素游戏，UI尽可能绘制在VGUI_SURFACE里就行
+此外，随时按下F4可以切换全屏
+
+System里面定义了两个宏：
+BASE_RESOLUTION_RATIO_WIDTH
+BASE_RESOLUTION_RATIO_HEIGHT
+这是假想的目标分辨率，默认为1280*720是因为Switch掌机模式就这个分辨率
+而当前的实际分辨率可以通过以下全局变量获取：
+UI_WIDTH
+UI_HEIGHT
+当前分辨率对比目标分辨率的缩放为UI_SCALE
+UI的自适应缩放应该使用UI_SCALE
+
+
+
+mDebug
+
+见Mbnlib2/Tools/mDebug
+通常情况下，setting_get("global", "debug")可以获取到当前是否开启了Debug
+开启后，画面左上角会显示一个信息窗口
+建议在正式发布的游戏中，隐藏该设置项
+
+
+
+mInput
+
+mInput用于解决键鼠和手柄的输入问题
+众所周知，GMS的输入检测函数都特别长，根本不想写
+而某些情况下，玩家会左手拿手柄、右手拿鼠标进行游戏，然后还用手去触摸屏幕！
+为了让按键指示能够正常显示当前的输入设备，同时为了简化输入检测，以及可能出现的改键位设置，mInput横空出世了！
+
+首先你应该在 Mbnlib2/Tools/mInput/Scr_Meboxen_input_define 里修改相关的默认按键
+按键被限定在了INPUT的枚举中，如果要添加更多的按键功能请增加INPUT枚举值
+每个枚举值对应的按钮定义都塞进了一个数组，这样如果某个功能可以用多个按键实现，
+只要在数组里添加按键就行
+
+值得注意的是，在Windows触屏环境下，点击屏幕然后马上松开会触发mouse release
+如果按住屏幕然后滑动，就会先触发mouse press，然后持续触发mouse down
+快速双击屏幕则会触发mouse press
+所以要做触屏游戏的话，请以mouse release为触摸点击的依据
+为什么是Windows触屏环境而不是别的平台的触屏？因为我买不起其他平台的许可证……
+
+使用input_kb(_key)检测特定功能对应的按键是否按下
+input_kb_pressed()是按下一瞬间，input_kb_released()是松开一瞬间
+如：
+if(input_kb_pressed(INPUT.FUNC0)) {
+	setting_set("audio", "volume_bgm", 0)
+}
+
+使用input_gp(_key, _device = 0)检测手柄是否按下特定功能对应的按键
+_device表示连接的第几个手柄
+input_gp_pressed()是按下一瞬间，input_gp_released()是松开一瞬间
+
+使用宏定义ms_l检测左键是否按下，ms_lp是按下一瞬间，ms_lr是松开一瞬间
+使用宏定义ms_r检测右键是否按下，ms_rp是按下一瞬间，ms_rr是松开一瞬间
+
+之所以要搞这样的简写是因为真的写起来很简单！
+
+使用input_is_kb()检测当前是否为键鼠输入
+
+使用input_is_gp()检测当前是否为手柄输入
+
+
+
+mTrigger
+
+mTrigger毫不掩饰地抄袭了Qt的消息系统，用法也很像
+尽管GMS不存在什么私有变量，但某些时候要精准触发相应instance的函数还是比较麻烦的
+这是使用类似消息系统的东西就很方便了！
+
+如果一个对象要能够发出信号，需要在Create事件里写__mTrigger_init()
+最后在Destroy事件里写__mTrigger_destroy()
+MWindow_BASE、Cmd_INGAME_BASE、Obj_INGAME_BASE及继承它们的对象已经写好了，可以直接用
+
+此外记住了！调用的是方法！方法和函数是不一样的！
+function func() {} 是函数
+method = function() {} 是方法
+准确来说，方法就是函数指针，将其放在一个变量里
+然后抓这这个变量，调用指针指向的函数，就相当于是调用函数了！
+
+使用connect(_sender, _signal_name, _receiver, _method_name)建立信号和方法的连接
+_sender是发射信号的instance的id，_signal_name随便写一个字符串
+_receiver是接受信号的instance的id，_method_name是要触发的方法名称（也是字符串）
+连接后，sender emit一个signal，触发receiver的methon
+如：
+tmp = mwidget_create_button(, 0.5, 0.5, 0,   50, "pause", , , 0);
+connect(tmp, "pressed", id, "pause");
+tmp是一个按钮的id，按钮被按下的时候会发射pressed信号
+把这个信号和pause方法连接起来，就可以实现按下按钮触发pause()
+
+使用disconnect(_sender, _signal_name, _receiver, _method_name)断开连接
+
+使用emit(_signal_name, _args = [])发射信号
+发射信号的sender只能是自己，防止别人替自己喊话
+_args是参数数组，要传参数的话就随便构造一个数组就行
+
+还有connect_global()和disconnect_global()和emit_global()函数
+加了个global的意思是，不接收者不再是某个特定的instance
+而是一类Object实例化而成的instance
+比如按下按钮要让所有Obj_monster调用die()方法，就要connect_global()了
+
+
+
+mMath、mTimer
+
+mMath塞了几个数学函数，含义一眼就可以看明白
+mTimer塞了几个计时器：
+base_timer_360
+base_timer_2048
+base_timer_100
+分布循环360、2048、100帧后重置
+可以结合mod做出若干帧执行一次的效果
+
+
+
+mDraw、mFont、Scribble
+
+mbnlib2自带了一些字体：
+Font_WenHei9px 文泉驿正黑9px，较为紧凑的像素字体，支持全字符集
+Font_WenHei12px 文泉驿正黑12px，较为宽松的像素字体，支持全字符集
+Font_WenHei24px 思源黑体24px，支持一、二级汉字表
+Font_WenHei36px 思源黑体36px，支持一级汉字表
+此外还有外挂字体，大小随着分辨率动态调整：
+Font_small 思源黑体，支持全字符集
+Font_middle 思源黑体，支持全字符集
+Font_large 思源黑体，支持全字符集
+
+mDraw已经将Scribble化作了自己的一部分，直接用mDraw函数即可
+mDraw是一系列绘图用函数，包括了好用的绘图函数、文本绘制（结合mFont）、
+常用Shader、Ingame System启用时的房间绘图等
+详情请看Mbnlib2/Tools/mDraw
+
+宏定义bm_set可以直接开启特定的混合模式，可以让绘制在surface上的半透明颜色正常混合
+如果是默认情况下，直接在surface上绘制半透明颜色，会莫名其妙地混入底色
+
+宏定义texft_on和texft_off可以开关材质二次线性过滤，增加某些情况下的材质质量
+简单来说就是让材质变糊
+在绘制像素美术的时候千万不要开这个
+
+使用draw_set(_color = $ffffff, _alpha = 1)控制绘制混合颜色和不透明度
+当然了这个颜色只是混合颜色，只能限制rgb通道值
+想要真正的染色绘制，请使用draw_sprite_color()
+
+使用text_set_font(_font)改变字体
+字体只能在FONT枚举中选，这样可以防止出现各种莫名其妙的问题
+如果要修改字体，请修改FONT枚举相关的定义
+
+使用text_set(_halign = fa_center, _valign = fa_middle)控制文本绘制位置
+
+使用text_draw(_x, _y, _string, _charNum = undefined, _format = TEXT_FORMAT.NORMAL)进行文本绘制
+这样就可以绘制出富文本了！
+所谓富文本，是指加特效的文字，比如一行字里面每个字都有不同颜色
+使用draw_set()只能让一段话都是一种颜色
+直接使用类html语法就可以实现富文本效果
+用法为<label>text</lable>
+如text_draw(114, 514, "<c_red>1919<c_blue>81<c_green>0</c>")
+_format可以填各种不同的特效
+
+需要注意的是，富文本只能用在项目里预先渲染为材质页的字体，不能使用外挂字体
+而要使用字体，需要在__mText_init()里设置
+
+
+
+mAudio
+
+mAudio可以自动管理BGM播放，同时封装了音效和配音播放的函数，使其写起来更方便
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

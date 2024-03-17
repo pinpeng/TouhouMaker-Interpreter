@@ -1,0 +1,155 @@
+{
+    "__msetting": {
+        "audio": [
+            "音频",
+            "<undefine>",
+            "<undefine>"
+        ],
+        "audio_volume_bgm": [
+            "音乐音量",
+            "音樂音量",
+            "BGM volume"
+        ],
+        "audio_volume_main": [
+            "主音量",
+            "主音量",
+            "Main volume"
+        ],
+        "audio_volume_se": [
+            "音效音量",
+            "音效音量",
+            "SE volume"
+        ],
+        "audio_volume_voice": [
+            "配音音量",
+            "<undefine>",
+            "<undefine>"
+        ],
+        "global": [
+            "全局",
+            "<undefine>",
+            "<undefine>"
+        ],
+        "global_debug": [
+            "Debug模式",
+            "Debug模式",
+            "Debug mode"
+        ],
+        "global_language": [
+            "语言",
+            "語言",
+            "Language"
+        ],
+        "global_language_0": [
+            "简体中文",
+            "简体中文",
+            "简体中文"
+        ],
+        "global_language_1": [
+            "繁體中文",
+            "繁体中文",
+            "繁体中文"
+        ],
+        "global_language_2": [
+            "English",
+            "English",
+            "English"
+        ],
+        "video": [
+            "视频",
+            "<undefine>",
+            "<undefine>"
+        ],
+        "video_bloom": [
+            "泛光效果",
+            "泛光效果",
+            "Bloom"
+        ],
+        "video_effect": [
+            "特效粒子",
+            "特效粒子",
+            "Effect particle"
+        ],
+        "video_full_screen": [
+            "全屏模式",
+            "全熒幕模式",
+            "Full screen"
+        ],
+        "video_full_screen_go": [
+            "以全屏模式启动",
+            "以全熒幕啓動",
+            "Start on full screen"
+        ]
+    },
+    "exit": {
+        "accept": [
+            "确定",
+            "確定",
+            "Accept"
+        ],
+        "cancel": [
+            "取消",
+            "取消",
+            "Cancel"
+        ],
+        "text": [
+            "确定要退出游戏吗？",
+            "確定要退出游戲嗎？",
+            "Do you want to exit?"
+        ]
+    },
+    "menu": {
+        "ex_start": [
+            "开始EX关卡",
+            "開始EX關卡",
+            "EXTRA START"
+        ],
+        "exit": [
+            "退出",
+            "退出",
+            "EXIT"
+        ],
+        "setting": [
+            "设置",
+            "設置",
+            "SETTING"
+        ],
+        "start": [
+            "开始游戏",
+            "開始游戲",
+            "START"
+        ]
+    },
+    "pause": {
+        "continue": [
+            "继续游戏",
+            "繼續游戲",
+            "Continue"
+        ],
+        "die": [
+            "满身疮痍",
+            "滿身瘡痍",
+            "Game Over"
+        ],
+        "die_start": [
+            "投币复活",
+            "投幣復活",
+            "Try again"
+        ],
+        "exit": [
+            "退出至主菜单",
+            "退出至主菜單",
+            "Back to menu"
+        ],
+        "restart": [
+            "重新开始本关卡",
+            "重新開始本關卡",
+            "Restart stage"
+        ],
+        "text": [
+            "暂停",
+            "暫停",
+            "PAUSE"
+        ]
+    }
+}
